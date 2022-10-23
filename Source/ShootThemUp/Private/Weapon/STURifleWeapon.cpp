@@ -8,8 +8,8 @@ DEFINE_LOG_CATEGORY_STATIC(LogRifleWeapon, All, All)
 
 void ASTURifleWeapon::StartFire()
 {
-	MakeShot();
 	GetWorldTimerManager().SetTimer(ShotTimerHandle, this, &ASTURifleWeapon::MakeShot, TimeBetweenShots, true);
+	MakeShot();
 }
 
 void ASTURifleWeapon::StopFire()
@@ -19,14 +19,16 @@ void ASTURifleWeapon::StopFire()
 
 void ASTURifleWeapon::MakeShot()
 {
-	if (!GetWorld())
+	if (!GetWorld() || IsAmmoEmpty())
 	{
+		StopFire();
 		return;
 	}
 
 	FVector TraceStart, TraceEnd;
 	if (!GetTraceData(TraceStart, TraceEnd))
 	{
+		StopFire();
 		return;
 	}
 
@@ -44,6 +46,8 @@ void ASTURifleWeapon::MakeShot()
 	{
 		DrawDebugLine(GetWorld(), GetMuzzleWorldLocation(), TraceEnd, FColor::Red, false, 3.0f, 0, 3.0f);
 	}
+
+	DecreaseAmmo();
 }
 
 bool ASTURifleWeapon::GetTraceData(FVector& TraceStart, FVector& TraceEnd) const
