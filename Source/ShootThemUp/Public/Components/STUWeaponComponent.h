@@ -12,65 +12,65 @@ class ASTUBaseWeapon;
 UCLASS(ClassGroup = (Custom), meta = (BlueprintSpawnableComponent))
 class SHOOTTHEMUP_API USTUWeaponComponent : public UActorComponent
 {
-	GENERATED_BODY()
+    GENERATED_BODY()
 
 public:
-	USTUWeaponComponent();
+    USTUWeaponComponent();
 
-	void StartFire();
-	void StopFire();
-	void NextWeapon();
-	void Reload();
+    void StartFire();
+    void StopFire();
+    void NextWeapon();
+    void Reload();
 
-	bool GetCurrentWeaponUIData(FWeaponUIData& UIData) const;
-	bool GetCurrentWeaponAmmoData(FAmmoData& AmmoData) const;
+    bool GetCurrentWeaponUIData(FWeaponUIData& UIData) const;
+    bool GetCurrentWeaponAmmoData(FAmmoData& AmmoData) const;
 
-	bool TryToAddAmmo(TSubclassOf<ASTUBaseWeapon> WeaponType, int32 ClipsAmount);
+    bool TryToAddAmmo(TSubclassOf<ASTUBaseWeapon> WeaponType, int32 ClipsAmount);
 
 protected:
-	UPROPERTY(EditDefaultsOnly, Category = "Weapon")
-	TArray<FWeaponData> WeaponData;
+    UPROPERTY(EditDefaultsOnly, Category = "Weapon")
+    TArray<FWeaponData> WeaponData;
 
-	UPROPERTY(EditDefaultsOnly, Category = "Weapon")
-	FName WeaponEquipSocketName = "WeaponSocket";
+    UPROPERTY(EditDefaultsOnly, Category = "Weapon")
+    FName WeaponEquipSocketName = "WeaponSocket";
 
-	UPROPERTY(EditDefaultsOnly, Category = "Weapon")
-	FName WeaponArmorySocketName = "ArmorySocket";
+    UPROPERTY(EditDefaultsOnly, Category = "Weapon")
+    FName WeaponArmorySocketName = "ArmorySocket";
 
-	UPROPERTY(EditDefaultsOnly, Category = "Animation")
-	UAnimMontage* EquipAnimMontage;
+    UPROPERTY(EditDefaultsOnly, Category = "Animation")
+    UAnimMontage* EquipAnimMontage;
 
-	virtual void BeginPlay() override;
-	virtual void EndPlay(const EEndPlayReason::Type EndPlayReason) override;
+    virtual void BeginPlay() override;
+    virtual void EndPlay(const EEndPlayReason::Type EndPlayReason) override;
 
 private:
-	UPROPERTY()
-	ASTUBaseWeapon* CurrentWeapon = nullptr;
+    UPROPERTY()
+    ASTUBaseWeapon* CurrentWeapon = nullptr;
 
-	UPROPERTY()
-	TArray<ASTUBaseWeapon*> Weapons;
+    UPROPERTY()
+    TArray<ASTUBaseWeapon*> Weapons;
 
-	UPROPERTY()
-	UAnimMontage* CurrentReloadAnimMontage = nullptr;
+    UPROPERTY()
+    UAnimMontage* CurrentReloadAnimMontage = nullptr;
 
-	int32 CurrentWeaponIndex = 0;
-	bool EquipAnimInProgress = false;
-	bool ReloadAnimInProgress = false;
+    int32 CurrentWeaponIndex = 0;
+    bool EquipAnimInProgress = false;
+    bool ReloadAnimInProgress = false;
 
-	void InitAnimations();
-	void SpawnWeapons();
-	void AttachWeaponToSocket(ASTUBaseWeapon* Weapon, USceneComponent* SceneComponent, const FName& SocketName);
-	void EquipWeapon(int32 WEaponIndex);
+    void InitAnimations();
+    void SpawnWeapons();
+    void AttachWeaponToSocket(ASTUBaseWeapon* Weapon, USceneComponent* SceneComponent, const FName& SocketName);
+    void EquipWeapon(int32 WeaponIndex);
 
-	void PlayAnimMontage(UAnimMontage* Animation);
+    void PlayAnimMontage(UAnimMontage* Animation);
 
-	void OnEquipFinished(USkeletalMeshComponent* MeshComponent);
-	void OnReloadFinished(USkeletalMeshComponent* MeshComponent);
+    void OnEquipFinished(USkeletalMeshComponent* MeshComp);
+    void OnReloadFinished(USkeletalMeshComponent* MeshComp);
 
-	bool CanFire() const;
-	bool CanEquip() const;
-	bool CanReload() const;
+    bool CanFire() const;
+    bool CanEquip() const;
+    bool CanReload() const;
 
-	void OnEmptyClip();
-	void ChangeClip();
+    void OnClipEmpty(ASTUBaseWeapon* AmmoEmptyWeapon);
+    void ChangeClip();
 };

@@ -9,5 +9,5 @@
 UCLASS()
 class SHOOTTHEMUP_API USTUEquipFinishedAnimNotify : public USTUAnimNotify
 {
-	GENERATED_BODY()
+    GENERATED_BODY()
 };
