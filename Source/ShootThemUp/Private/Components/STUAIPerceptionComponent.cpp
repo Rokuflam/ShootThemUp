@@ -1,11 +1,10 @@
 // Shoot Them Up Game, All Rights Reserved.
 
-
 #include "Components/STUAIPerceptionComponent.h"
 #include "AIController.h"
 #include "STUUtils.h"
 #include "Components/STUHealthComponent.h"
-#include "Perception/AISense_sight.h"
+#include "Perception/AISense_Sight.h"
 
 AActor* USTUAIPerceptionComponent::GetClosestEnemy() const
 {
@@ -21,16 +20,16 @@ AActor* USTUAIPerceptionComponent::GetClosestEnemy() const
 
     float BestDistance = MAX_FLT;
     AActor* BestPawn = nullptr;
-    for (const auto PercievActor: PercieveActors)
+    for (const auto PercieveActor : PercieveActors)
     {
-        const auto HealthComponent = STUUtils::GetSTUPlayerComponent<USTUHealthComponent>(PercievActor);
-        if (HealthComponent && !HealthComponent->IsDead()) // TODO: check if enemies or not
+        const auto HealthComponent = STUUtils::GetSTUPlayerComponent<USTUHealthComponent>(PercieveActor);
+        if (HealthComponent && !HealthComponent->IsDead())  // TODO: check if enemies or not
         {
-            const auto CurrentDistance = (PercievActor->GetActorLocation() - Pawn->GetActorLocation()).Size();
+            const auto CurrentDistance = (PercieveActor->GetActorLocation() - Pawn->GetActorLocation()).Size();
             if (CurrentDistance < BestDistance)
             {
                 BestDistance = CurrentDistance;
-                BestPawn = PercievActor;
+                BestPawn = PercieveActor;
             }
         }
     }

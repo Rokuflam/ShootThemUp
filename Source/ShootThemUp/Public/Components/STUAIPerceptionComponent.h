@@ -6,9 +6,6 @@
 #include "Perception/AIPerceptionComponent.h"
 #include "STUAIPerceptionComponent.generated.h"
 
-/**
- *
- */
 UCLASS()
 class SHOOTTHEMUP_API USTUAIPerceptionComponent : public UAIPerceptionComponent
 {
@@ -16,5 +13,4 @@ class SHOOTTHEMUP_API USTUAIPerceptionComponent : public UAIPerceptionComponent
 
 public:
     AActor* GetClosestEnemy() const;
-
 };

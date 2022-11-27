@@ -28,7 +28,6 @@ EBTNodeResult::Type USTUNextLocationTask::ExecuteTask(UBehaviorTreeComponent& Ow
     {
         auto CenterActor = Cast<AActor>(Blackboard->GetValueAsObject(CenterActorKey.SelectedKeyName));
         if (!CenterActor) return EBTNodeResult::Failed;
-
         Location = CenterActor->GetActorLocation();
     }
 
