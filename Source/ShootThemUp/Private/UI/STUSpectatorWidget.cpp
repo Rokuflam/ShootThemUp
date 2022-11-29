@@ -1,6 +1,6 @@
 // Shoot Them Up Game, All Rights Reserved.
 
-#include "STUSpectatorWidget.h"
+#include "UI/STUSpectatorWidget.h"
 #include "STUUtils.h"
 #include "Components/STURespawnComponent.h"
 
