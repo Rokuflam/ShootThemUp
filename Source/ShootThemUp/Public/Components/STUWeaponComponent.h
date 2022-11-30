@@ -19,6 +19,7 @@ public:
 
     virtual void StartFire();
     void StopFire();
+    bool IsFiring() const;
     virtual void NextWeapon();
     void Reload();
 
@@ -27,6 +28,8 @@ public:
 
     bool TryToAddAmmo(TSubclassOf<ASTUBaseWeapon> WeaponType, int32 ClipsAmount);
     bool NeedAmmo(TSubclassOf<ASTUBaseWeapon> WeaponType);
+
+    void Zoom(bool Enabled);
 
 protected:
     UPROPERTY(EditDefaultsOnly, Category = "Weapon")
@@ -74,6 +77,6 @@ private:
 
     bool CanReload() const;
 
-    void OnClipEmpty(ASTUBaseWeapon* AmmoEmptyWeapon);
+    void OnClipEmpty(ASTUBaseWeapon* ClipEmptyWeapon);
     void ChangeClip();
 };

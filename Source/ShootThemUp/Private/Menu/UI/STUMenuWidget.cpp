@@ -7,6 +7,7 @@
 #include "Kismet/KismetSystemLibrary.h"
 #include "Components/HorizontalBox.h"
 #include "Menu/UI/STULevelItemWidget.h"
+#include "Sound/SoundCue.h"
 
 DEFINE_LOG_CATEGORY_STATIC(LogSTUMenuWidget, All, All);
 
@@ -49,13 +50,13 @@ void USTUMenuWidget::InitLevelItems()
         LevelItemWidgets.Add(LevelItemWidget);
     }
 
-    if (STUGameInstance->GetStartupLevel().LevelName.IsNone())
+    if (STUGameInstance->GetStartupLevelData().LevelName.IsNone())
     {
         OnLevelSelected(STUGameInstance->GetLevelsData()[0]);
     }
     else
     {
-        OnLevelSelected(STUGameInstance->GetStartupLevel());
+        OnLevelSelected(STUGameInstance->GetStartupLevelData());
     }
 }
 
@@ -64,7 +65,7 @@ void USTUMenuWidget::OnLevelSelected(const FLevelData& Data)
     const auto STUGameInstance = GetSTUGameInstance();
     if (!STUGameInstance) return;
 
-    STUGameInstance->SetStartupLevel(Data);
+    STUGameInstance->SetStartupLevelData(Data);
 
     for (auto LevelItemWidget : LevelItemWidgets)
     {
@@ -79,6 +80,7 @@ void USTUMenuWidget::OnLevelSelected(const FLevelData& Data)
 void USTUMenuWidget::OnStartGame()
 {
     PlayAnimation(HideAnimation);
+    UGameplayStatics::PlaySound2D(GetWorld(), StartGameSound);
 }
 
 void USTUMenuWidget::OnAnimationFinished_Implementation(const UWidgetAnimation* Animation)
@@ -88,7 +90,7 @@ void USTUMenuWidget::OnAnimationFinished_Implementation(const UWidgetAnimation* 
     const auto STUGameInstance = GetSTUGameInstance();
     if (!STUGameInstance) return;
 
-    UGameplayStatics::OpenLevel(this, STUGameInstance->GetStartupLevel().LevelName);
+    UGameplayStatics::OpenLevel(this, STUGameInstance->GetStartupLevelData().LevelName);
 }
 
 void USTUMenuWidget::OnQuitGame()

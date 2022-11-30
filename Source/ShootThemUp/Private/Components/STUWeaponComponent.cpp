@@ -80,6 +80,7 @@ void USTUWeaponComponent::EquipWeapon(int32 WeaponIndex)
 
     if (CurrentWeapon)
     {
+        CurrentWeapon->Zoom(false);
         CurrentWeapon->StopFire();
         AttachWeaponToSocket(CurrentWeapon, Character->GetMesh(), WeaponArmorySocketName);
     }
@@ -106,6 +107,11 @@ void USTUWeaponComponent::StopFire()
 {
     if (!CurrentWeapon) return;
     CurrentWeapon->StopFire();
+}
+
+bool USTUWeaponComponent::IsFiring() const
+{
+    return CurrentWeapon && CurrentWeapon->IsFiring();
 }
 
 void USTUWeaponComponent::NextWeapon()
@@ -187,11 +193,11 @@ void USTUWeaponComponent::Reload()
     ChangeClip();
 }
 
-void USTUWeaponComponent::OnClipEmpty(ASTUBaseWeapon* AmmoEmptyWeapon)
+void USTUWeaponComponent::OnClipEmpty(ASTUBaseWeapon* ClipEmptyWeapon)
 {
-    if (!AmmoEmptyWeapon) return;
+    if (!ClipEmptyWeapon) return;
 
-    if (CurrentWeapon == AmmoEmptyWeapon)
+    if (CurrentWeapon == ClipEmptyWeapon)
     {
         ChangeClip();
     }
@@ -199,7 +205,7 @@ void USTUWeaponComponent::OnClipEmpty(ASTUBaseWeapon* AmmoEmptyWeapon)
     {
         for (const auto Weapon : Weapons)
         {
-            if (Weapon == AmmoEmptyWeapon)
+            if (Weapon == ClipEmptyWeapon)
             {
                 Weapon->ChangeClip();
             }
@@ -258,4 +264,12 @@ bool USTUWeaponComponent::NeedAmmo(TSubclassOf<ASTUBaseWeapon> WeaponType)
         }
     }
     return false;
+}
+
+void USTUWeaponComponent::Zoom(bool Enabled)
+{
+    if (CurrentWeapon)
+    {
+        CurrentWeapon->Zoom(Enabled);
+    }
 }
